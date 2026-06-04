@@ -1,1 +1,288 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shivangi and Aman's Journey</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#141414;color:#fff;overflow-x:hidden}
+ 
+#splash{
+position:fixed;inset:0;background:#000;
+display:flex;justify-content:center;align-items:center;
+z-index:9999;
+}
+.logo{
+color:#E50914;
+font-size:7rem;
+font-weight:bold;
+animation:zoom 3s forwards;
+}
+@keyframes zoom{
+from{opacity:0;transform:scale(.3)}
+to{opacity:1;transform:scale(1)}
+}
+ 
+#profiles{
+display:none;
+min-height:100vh;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+padding:40px;
+}
+ 
+.title{
+font-size:4rem;
+margin-bottom:50px;
+}
+ 
+.cards{
+display:flex;
+gap:30px;
+flex-wrap:wrap;
+justify-content:center;
+}
+ 
+.card{
+width:260px;
+cursor:pointer;
+transition:.35s;
+}
+ 
+.card:hover{
+transform:scale(1.12);
+}
+ 
+.card img{
+width:100%;
+height:360px;
+object-fit:cover;
+border-radius:10px;
+}
+ 
+.label{
+text-align:center;
+margin-top:12px;
+font-size:1.6rem;
+}
+ 
+#home{
+display:none;
+padding-top:80px;
+min-height:100vh;
+}
+ 
+.nav{
+position:fixed;
+top:0;
+width:100%;
+padding:20px 40px;
+background:linear-gradient(#000,transparent);
+z-index:100;
+}
+ 
+.netflix{
+color:#E50914;
+font-size:2rem;
+font-weight:bold;
+}
+ 
+.hero{
+height:70vh;
+position:relative;
+}
+ 
+.hero img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+ 
+.overlay{
+position:absolute;
+inset:0;
+background:linear-gradient(to top,#141414,transparent);
+}
+ 
+.heroText{
+position:absolute;
+bottom:60px;
+left:50px;
+}
+ 
+.heroText h1{
+font-size:4rem;
+}
+ 
+.back{
+margin-top:15px;
+padding:12px 20px;
+cursor:pointer;
+border:none;
+}
+ 
+.row{
+padding:30px;
+}
+ 
+.row h2{
+margin-bottom:15px;
+}
+ 
+.slider{
+display:flex;
+gap:12px;
+overflow-x:auto;
+padding-bottom:15px;
+}
+ 
+.thumb{
+min-width:220px;
+height:320px;
+overflow:hidden;
+border-radius:8px;
+cursor:pointer;
+transition:.3s;
+}
+ 
+.thumb:hover{
+transform:scale(1.08);
+}
+ 
+.thumb img{
+width:100%;
+height:100%;
+object-fit:cover;
+object-position:center top;
+}
+ 
+#imageModal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.95);
+justify-content:center;
+align-items:center;
+z-index:10000;
+}
+ 
+#imageModal img{
+max-width:90%;
+max-height:90%;
+border-radius:10px;
+}
+ 
+.close{
+position:absolute;
+top:20px;
+right:30px;
+font-size:2rem;
+cursor:pointer;
+}
+</style>
+</head>
+<body>
+ 
+<div id="splash"><div class="logo">NETFLIX</div></div>
+ 
+<div id="profiles">
+<div class="title">Who's Watching?</div>
+ 
+<div class="cards">
+<div class="card" onclick="openEvent('1st Month', this.querySelector('img').src)">
+<img src="https://res.cloudinary.com/dqp3suzn2/image/upload/v1780546139/3_zosz0g.jpg">
+<div class="label">1st Month</div>
+</div>
+ 
+<div class="card" onclick="openEvent('2nd Month', this.querySelector('img').src)">
+<img src="https://res.cloudinary.com/dqp3suzn2/image/upload/v1780546140/12_rmi4yx.jpg">
+<div class="label">2nd Month</div>
+</div>
+ 
+<div class="card" onclick="openEvent('3rd Month', this.querySelector('img').src)">
+<img src="https://res.cloudinary.com/dqp3suzn2/image/upload/v1780546140/11_cdwiwz.jpg">
+<div class="label">3rd Month</div>
+</div>
+</div>
+</div>
+ 
+<div id="home">
+<div class="nav"><div class="netflix">NETFLIX</div></div>
+ 
+<div class="hero">
+<img id="heroImage" src="">
+<div class="overlay"></div>
+<div class="heroText">
+<h1 id="eventTitle"></h1>
+<button class="back" onclick="goBack()">← Back</button>
+</div>
+</div>
+ 
+<div class="row">
+<h2>Gallery</h2>
+<div class="slider" id="gallerySlider"></div>
+</div>
+</div>
+ 
+<div id="imageModal" onclick="closeImage()">
+<span class="close">✖</span>
+<img id="modalImg">
+</div>
+ 
+<script>
+const galleries={
+"1st Month":[
+"https://res.cloudinary.com/dqp3suzn2/image/upload/v1780546139/1_x4o3zb.jpg",
+"https://res.cloudinary.com/dqp3suzn2/image/upload/v1780546139/2_ize2up.jpg",
+"https://res.cloudinary.com/dqp3suzn2/image/upload/v1780546139/3_zosz0g.jpg",
+"https://res.cloudinary.com/dqp3suzn2/image/upload/v1780546140/4_y8mhoo.jpg",
+"https://res.cloudinary.com/dqp3suzn2/image/upload/v1780546139/5_hv3jw0.jpg",
+"https://res.cloudinary.com/dqp3suzn2/image/upload/v1780546139/6_olwwsh.jpg",
+"https://res.cloudinary.com/dqp3suzn2/image/upload/v1780546139/6.1_gnjf0y.jpg"
+],
+"2nd Month":["https://res.cloudinary.com/dqp3suzn2/image/upload/v1780546139/7_ngjxmq.jpg","https://res.cloudinary…
+],
+"3rd Month":["https://res.cloudinary.com/dqp3suzn2/image/upload/v1780546141/15_vvcfuv.jpg","https://res.cloudinar…
+]
+};
+ 
+setTimeout(()=>{
+document.getElementById('splash').style.display='none';
+document.getElementById('profiles').style.display='flex';
+},3000);
+ 
+function openEvent(month,img){
+document.getElementById('profiles').style.display='none';
+document.getElementById('home').style.display='block';
+document.getElementById('eventTitle').innerText=month;
+document.getElementById('heroImage').src=img;
+loadGallery(month);
+}
+ 
+function loadGallery(month){
+const slider=document.getElementById('gallerySlider');
+slider.innerHTML='';
+galleries[month].forEach(photo=>{
+slider.innerHTML+=`<div class="thumb"><img src="${photo}" onclick="showImage(this.src)"></div>`;
+});
+}
+ 
+function goBack(){
+document.getElementById('home').style.display='none';
+document.getElementById('profiles').style.display='flex';
+}
+ 
+function showImage(src){
+document.getElementById('modalImg').src=src;
+document.getElementById('imageModal').style.display='flex';
+}
+ 
+function closeImage(){
+document.getElementById('imageModal').style.display='none';
+}
+</script>
+</body>
+</html>
